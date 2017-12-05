@@ -1,7 +1,5 @@
 <?php
 
-	require_once 'database-connection.php';
-
 	if ( $user->is_logged_in() ) {
 		$user->redirect( 'home.php' );
 	}
@@ -34,9 +32,11 @@
 					$warning[] = 'Email already registered, want to login?';
 				} else {
 					if ( $user->register( $name, $mail, $pass ) ) {
-						# code...
+						$user->redirect( 'register.php?joined' );
 					}
 				}
+			} catch ( PDOException $e ) {
+				$e->get_Message();
 			}
 		}
 	}
