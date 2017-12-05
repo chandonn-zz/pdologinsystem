@@ -1,8 +1,8 @@
 <?php
 
 /**
-* 
-*/
+ * Main class for the system.
+ */
 class User {
 
 	private $db;
@@ -13,13 +13,13 @@ class User {
 
 	public function register( $first, $last, $name, $mail, $pass ) {
 		try {
-			$hashed = password_hash( $pass, PASSWORD_DEFAULT );
+			$hashed_password = password_hash( $pass, PASSWORD_DEFAULT );
 
 			$sentence = $this->db->prepare( 'INSERT INTO users( name, email, pass ) VALUES( :name, :email, :pass )' );
 
-			$sentence->bindparam( ':name', $name );
-			$sentence->bindparam( ':email', $mail );
-			$sentence->bindparam( ':pass', $pass );
+			$sentence->bindParam( ':name', $name, PDO::PARAM_STR );
+			$sentence->bindParam( ':email', $mail, PDO::PARAM_STR );
+			$sentence->bindParam( ':pass', $hashed_password );
 			$sentence->execute();
 
 			return $sentence;
@@ -32,8 +32,8 @@ class User {
 		try {
 			$sentence = $this->db->prepare( 'SELECT FROM users WHERE name=:name OR mail:mail LIMIT 1' );
 
-			$sentence->bindparam( ':name', $name );
-			$sentence->bindparam( ':mail', $mail );
+			$sentence->bindParam( ':name', $name, PDO::PARAM_STR );
+			$sentence->bindParam( ':mail', $mail, PDO::PARAM_STR );
 			$sentence->execute();
 
 			$matched_row = $sentence->fetch( PDO::FETCH_ASSOC );
