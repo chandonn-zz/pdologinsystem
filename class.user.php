@@ -52,4 +52,23 @@ class User {
 			$e->getMessage();
 		}
 	}
+
+	public function is_logged_in() {
+		if ( isset( $_SESSION['user_session'] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function redirect( $url ) {
+		header( 'Location: $url' );
+		exit;
+	}
+
+	public function logout() {
+		session_destroy();
+		unset( $_SESSION['user_session'] );
+		return true;
+	}
 }
