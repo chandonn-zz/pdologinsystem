@@ -27,9 +27,9 @@
 				$matched_user = $sentence->fetch( PDO::FETCH_ASSOC );
 
 				if ( $matched_user['name'] === $name ) {
-					$warning[] = 'User taken, please choose other';
+					$warning = 'User taken, please choose other';
 				} else if ( $matched_user['email'] === $mail ) {
-					$warning[] = 'Email already registered, want to login?';
+					$warning = 'Email already registered, want to login?';
 				} else {
 					if ( $user->register( $name, $mail, $pass ) ) {
 						$user->redirect( 'register.php?joined' );
