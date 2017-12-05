@@ -11,7 +11,7 @@ class User {
 		$this->db = $connection;
 	}
 
-	public function register( $first, $last, $name, $mail, $pass ) {
+	public function register( $name, $mail, $pass ) {
 		try {
 			$hashed_password = password_hash( $pass, PASSWORD_DEFAULT );
 
@@ -28,12 +28,12 @@ class User {
 		}
 	}
 
-	public function login( $name, $mail, $pass ) {
+	public function login( $credential, $pass ) {
 		try {
 			$sentence = $this->db->prepare( 'SELECT FROM users WHERE name=:name OR mail:mail LIMIT 1' );
 
-			$sentence->bindParam( ':name', $name, PDO::PARAM_STR );
-			$sentence->bindParam( ':mail', $mail, PDO::PARAM_STR );
+			$sentence->bindParam( ':name', $credential, PDO::PARAM_STR );
+			$sentence->bindParam( ':mail', $credential, PDO::PARAM_STR );
 			$sentence->execute();
 
 			$matched_row = $sentence->fetch( PDO::FETCH_ASSOC );
@@ -72,3 +72,4 @@ class User {
 		return true;
 	}
 }
+?>
