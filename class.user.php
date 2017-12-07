@@ -66,6 +66,28 @@ class User {
 		exit;
 	}
 
+	public function get_user_data( $id ) {
+		try {
+			$sentence = $this->db->prepare( 'SELECT * FROM users WHERE id=:id LIMIT 1' );
+			$sentence->bindParam( ':id', $id, PDO::PARAM_INT );
+			$sentence->execute();
+
+			$matched_row = $sentence->fetch( PDO::FETCH_ASSOC );
+			$user_data   = '';
+
+			if ( 1 === $sentence->rowCount() ) {
+				$user_data['name']  = $matched_row['name'];
+				$user_data['email'] = $matched_row['email'];
+			} else {
+				return false;
+			}
+		} catch( PDOException $e ) {
+			$e->getMessage();
+		}
+
+		return $user_data;
+	}
+
 	public function logout() {
 		session_destroy();
 		unset( $_SESSION['user_session'] );
