@@ -30,7 +30,7 @@ class User {
 
 	public function login( $credential, $pass ) {
 		try {
-			$sentence = $this->db->prepare( 'SELECT FROM users WHERE name=:name OR mail:mail LIMIT 1' );
+			$sentence = $this->db->prepare( 'SELECT * FROM users WHERE name=:name OR email=:mail LIMIT 1' );
 
 			$sentence->bindParam( ':name', $credential, PDO::PARAM_STR );
 			$sentence->bindParam( ':mail', $credential, PDO::PARAM_STR );
@@ -62,7 +62,7 @@ class User {
 	}
 
 	public function redirect( $url ) {
-		header( 'Location: $url' );
+		header( 'Location: ' . $url );
 		exit;
 	}
 
