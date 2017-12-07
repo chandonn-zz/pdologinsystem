@@ -11,8 +11,8 @@
 
 		if ( '' === $name ) {
 			$message = 'Please, type a user name';
-		} else if ( '' === $mail || ! filter_var( $mail, FILTER_VALIDADE_EMAIL ) ) {
-			$message = 'Provide a valid email';
+		} else if ( false === filter_var( $mail, FILTER_VALIDADE_EMAIL ) ) {
+			$message = ' Provide a valid email';
 		} else if ( '' === $pass || 6 > strlen( $pass ) ) {
 			$message = 'Your password must have at least 6 characters';
 		} else {
@@ -29,7 +29,7 @@
 				if ( $matched_user['name'] === $name ) {
 					$warning = 'User taken, please choose other';
 				} else if ( $matched_user['email'] === $mail ) {
-					$warning = 'Email already registered, want to login?';
+					$warning = 'Email already registered, <a href="index.php">want to login</a>?';
 				} else {
 					if ( $user->register( $name, $mail, $pass ) ) {
 						$user->redirect( 'register.php?joined' );
@@ -39,6 +39,10 @@
 				$e->get_Message();
 			}
 		}
+
+		unset( $_POST['new_name'] );
+		unset( $_POST['new_mail'] );
+		unset( $_POST['new_pass'] );
 	}
 
 ?>
