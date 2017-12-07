@@ -5,8 +5,8 @@
 	}
 
 	if ( isset( $_POST['login_button'] ) ) {
-		$name = $_POST['user_credential'];
-		$pass = $_POST['user_pass'];
+		$credential = $_POST['user_credential'];
+		$pass       = $_POST['user_pass'];
 
 		if ( $user->login( $credential, $pass ) ) {
 			$user->redirect( 'home.php' );
